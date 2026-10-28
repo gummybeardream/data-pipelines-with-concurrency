@@ -1,4 +1,4 @@
-module goroutines_pipeline
+module github.com/gummybeardream/data-pipelines-with-concurrency
 
 go 1.20
 
