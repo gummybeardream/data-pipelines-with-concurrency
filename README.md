@@ -4,6 +4,9 @@
 
 Requires Golang 1.20 or higher.
 
+## Images
+
+Three source images were converted from WebP to JPEG using macOS Preview at approximately 90% quality. The conversion was necessary because the original pipeline did not support WebP decoding.
 
 ## Results 
 

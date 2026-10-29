@@ -69,10 +69,10 @@ func saveImage(input <-chan Job) <-chan bool {
 
 func main() {
 
-	imagePaths := []string{"images/image1.jpeg",
-		"images/image2.jpeg",
-		"images/image3.jpeg",
-		"images/image4.jpeg",
+	imagePaths := []string{"images/corgi.jpeg",
+		"images/bernesemountain.jpeg",
+		"images/icelandicsheep.jpeg",
+		"images/norwegianelkhound.jpeg",
 	}
 
 	channel1 := loadImage(imagePaths)
