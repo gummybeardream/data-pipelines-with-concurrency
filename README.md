@@ -4,9 +4,18 @@
 
 Requires Golang 1.20 or higher.
 
-## Images
+## Input Images
 
-Three source images were converted from WebP to JPEG using macOS Preview at approximately 90% quality. The conversion was necessary because the original pipeline did not support WebP decoding.
+Three source images were converted from WebP to JPEG using macOS Preview at approximately 90% quality. The conversion was necessary because the original pipeline did not support WebP decoding. The Norwegian Elkhound image was created by Sannse and is used under CC BY-SA 3.0. The filename was changed for use in this project. The image remains licensed under CC BY-SA 3.0 and is not relicensed under Apache 2.0.
+
+| Local filename | Source | Creator | License | Original format | Dimensions |
+|---|---|---|---|---|---|
+| `bernesemountain.jpeg` | [Kevin The Berner](https://www.kevintheberner.com/blog/6-reasons-you-need-a-bernese-mountain-dog) | Kevin The Berner website; photographer not stated | Not stated | WebP | 2500 × 3124 |
+| `corgi.jpeg` | [Modern Dog Magazine](https://moderndogmagazine.com/articles/breeds/the-pembroke-welsh-corgi/) | Liudmila Bohush; attribution inferred from source filename | Not stated | WebP | 819 × 1024 |
+| `icelandicsheep.jpeg` | [Rover: Dogs That Look Like Foxes](https://www.rover.com/blog/dogs-that-look-like-foxes/) | Veronica Druk, via Wikimedia Commons | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | WebP | 700 × 700 |
+| `norwegianelkhound.jpeg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Norwegian_Elkhound.jpg) | Sannse | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | JPEG | 600 × 629 |
+
+
 
 ## Results 
 
