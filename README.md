@@ -28,6 +28,35 @@ The image-writing helper function creates the output directory and returns the e
 
 Output errors are structured similarly to the input error reports. The program reports every result and exits with status 1 if any output fails. A manual check using an invalid output directory confirmed that failures produce descriptive errors without causing a panic.
 
+
+## How to Run the Image Processor
+
+It will run in default concurrent mode with this command:
+
+```bash
+go run .
+```
+You can also use this command to display `-mode` options and their descriptions: 
+
+```
+go run . -help
+```
+
+A manual test with an invalid mode was used to show that the program will prompt to call either concurrent or sequential and end with exit status 2.
+
+### Run with goroutines
+
+```bash
+go run . -mode=concurrent
+```
+
+
+### Run without goroutines
+```bash
+go run . -mode=sequential
+```
+
+
 ## Results
 
 ### Original Baseline Results
