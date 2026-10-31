@@ -4,6 +4,7 @@ import (
 	"fmt"
 	imageprocessing "github.com/gummybeardream/data-pipelines-with-concurrency/image_processing"
 	"image"
+	"os"
 	"strings"
 )
 
@@ -11,6 +12,13 @@ type Job struct {
 	InputPath string
 	Image     image.Image
 	OutPath   string
+	Err       error
+}
+
+type Result struct {
+	InputPath string
+	OutPath   string
+	Err       error
 }
 
 func loadImage(paths []string) <-chan Job {
@@ -21,7 +29,10 @@ func loadImage(paths []string) <-chan Job {
 		for _, p := range paths {
 			job := Job{InputPath: p,
 				OutPath: strings.Replace(p, "images/", "images/output/", 1)}
-			job.Image = imageprocessing.ReadImage(p)
+
+			img, err := imageprocessing.ReadImage(p)
+			job.Image = img
+			job.Err = err
 			out <- job
 		}
 		close(out)
@@ -35,11 +46,16 @@ func resize(input <-chan Job) <-chan Job {
 		// For each input job, create a new job after resize and add it to
 		// the out channel
 		for job := range input { // Read from the channel
-			job.Image = imageprocessing.Resize(job.Image)
+			if job.Err == nil {
+				job.Image = imageprocessing.Resize(job.Image)
+			}
+
 			out <- job
 		}
+
 		close(out)
 	}()
+
 	return out
 }
 
@@ -47,7 +63,9 @@ func convertToGrayscale(input <-chan Job) <-chan Job {
 	out := make(chan Job)
 	go func() {
 		for job := range input { // Read from the channel
-			job.Image = imageprocessing.Grayscale(job.Image)
+			if job.Err == nil {
+				job.Image = imageprocessing.Grayscale(job.Image)
+			}
 			out <- job
 		}
 		close(out)
@@ -55,14 +73,23 @@ func convertToGrayscale(input <-chan Job) <-chan Job {
 	return out
 }
 
-func saveImage(input <-chan Job) <-chan bool {
-	out := make(chan bool)
+func saveImage(input <-chan Job) <-chan Result {
+	out := make(chan Result)
 	go func() {
 		for job := range input { // Read from the channel
-			imageprocessing.WriteImage(job.OutPath, job.Image)
-			out <- true
+			if job.Err == nil {
+				imageprocessing.WriteImage(job.OutPath, job.Image)
+			}
+
+			out <- Result{
+				InputPath: job.InputPath,
+				OutPath:   job.OutPath,
+				Err:       job.Err,
+			}
+
 		}
 		close(out)
+
 	}()
 	return out
 }
@@ -80,11 +107,18 @@ func main() {
 	channel3 := convertToGrayscale(channel2)
 	writeResults := saveImage(channel3)
 
-	for success := range writeResults {
-		if success {
-			fmt.Println("Success!")
-		} else {
-			fmt.Println("Failed!")
+	hadError := false
+
+	for result := range writeResults {
+		if result.Err != nil {
+			hadError = true
+			fmt.Fprintf(os.Stderr, "Failed: %v\n", result.Err)
+			continue
 		}
+
+		fmt.Printf("Success: %s\n", result.OutPath)
+	}
+	if hadError {
+		os.Exit(1)
 	}
 }

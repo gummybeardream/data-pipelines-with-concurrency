@@ -10,20 +10,24 @@ import (
 	"github.com/nfnt/resize"
 )
 
-func ReadImage(path string) image.Image {
+func ReadImage(path string) (image.Image, error) {
 	inputFile, err := os.Open(path)
 	if err != nil {
-		panic(err)
+		return nil, fmt.Errorf("open input image %q: %w", path, err)
 	}
-	defer inputFile.Close()
 
 	// Decode the image
-	img, _, err := image.Decode(inputFile)
-	if err != nil {
-		fmt.Println(path)
-		panic(err)
+	img, _, decodeErr := image.Decode(inputFile)
+	closeErr := inputFile.Close()
+
+	if decodeErr != nil {
+		return nil, fmt.Errorf("decode input image %q: %w", path, decodeErr)
 	}
-	return img
+
+	if closeErr != nil {
+		return nil, fmt.Errorf("close input image %q: %w", path, closeErr)
+	}
+	return img, nil
 }
 
 func WriteImage(path string, img image.Image) {
