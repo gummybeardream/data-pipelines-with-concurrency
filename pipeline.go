@@ -37,8 +37,7 @@ func newJob(inputPath string) Job {
 func loadImage(paths []string) <-chan Job {
 	out := make(chan Job)
 	go func() {
-		// For each input path create a job and add it to
-		// the out channel
+		// Create one job per input path and send it to the next pipeline stage
 		for _, path := range paths {
 			job := newJob(path)
 
@@ -55,9 +54,8 @@ func loadImage(paths []string) <-chan Job {
 func resize(input <-chan Job) <-chan Job {
 	out := make(chan Job)
 	go func() {
-		// For each input job, create a new job after resize and add it to
-		// the out channel
-		for job := range input { // Read from the channel
+		// Resize successful jobs and pass every job to the next pipeline stage
+		for job := range input { 
 			if job.Err == nil {
 				job.Image = imageprocessing.Resize(job.Image)
 			}
@@ -71,10 +69,11 @@ func resize(input <-chan Job) <-chan Job {
 	return out
 }
 
+// convertToGrayscale converts successful jobs and passes all jobs onward
 func convertToGrayscale(input <-chan Job) <-chan Job {
 	out := make(chan Job)
 	go func() {
-		for job := range input { // Read from the channel
+		for job := range input {
 			if job.Err == nil {
 				job.Image = imageprocessing.Grayscale(job.Image)
 			}
@@ -85,10 +84,11 @@ func convertToGrayscale(input <-chan Job) <-chan Job {
 	return out
 }
 
+// saveImage writes successful jobs and returns the result of every job
 func saveImage(input <-chan Job) <-chan Result {
 	out := make(chan Result)
 	go func() {
-		for job := range input { // Read from the channel
+		for job := range input {
 			if job.Err == nil {
 				job.Err = imageprocessing.WriteImage(job.OutPath, job.Image)
 			}
@@ -106,7 +106,7 @@ func saveImage(input <-chan Job) <-chan Result {
 	return out
 }
 
-// processConcurrent that runs the four goroutine-based pipeline stages
+// processConcurrent runs the four goroutine-based pipeline stages
 func processConcurrent(paths []string) []Result {
 	channel1 := loadImage(paths)
 	channel2 := resize(channel1)

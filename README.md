@@ -36,9 +36,9 @@ It will run in default concurrent mode with this command:
 ```bash
 go run .
 ```
-You can also use this command to display `-mode` options and their descriptions: 
+You can also use this command to display `-mode` options and their descriptions:
 
-```
+```bash
 go run . -help
 ```
 
