@@ -59,6 +59,14 @@ go run . -mode=sequential
 
 ## Results
 
+### Image-Processing Helper Tests
+
+### Image-Processing Helper Tests
+
+Six unit tests verify image resizing, grayscale conversion, successful image reading and writing, missing input files, invalid image data, and invalid output paths. The tests use synthetic images and temporary directories so they do not depend on the assignment input files.
+
+The helper package achieved **91.3% statement coverage**. Running the complete test suite with Go's race detector reported no data races.
+
 ### Original Baseline Results
 
 The original pipeline was compiled before runtime was measured so that compilation time was excluded. Using the `time` command, the program was run 6 times with the first time being a warm-up and the next five runs were measured. The average of the `total` runtime was .1492 seconds or 149.2 milliseconds.
