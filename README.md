@@ -16,10 +16,13 @@ Three source images were converted from WebP to JPEG using macOS Preview at appr
 | `norwegianelkhound.jpeg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Norwegian_Elkhound.jpg) | Sannse | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | JPEG | 600 × 629 |
 
 
+## Input Error Handling 
+
+The image-loading helper functions returns errors that indicate what has been affected instead of stopping with 'panic'. Errors can occur when an input file cannot be opened, decoded, or closed. Each error displays the affected file path and is carried through the pipeline without attempting later image transformations. 
+
+The program continues processing other valid images and reports every result. If any input fails, the program exits with status 1 after all jobs have been handled. Manual checks confirmed that missing files and files containing invalid images produce descriptive errors without causing a panic. 
 
 ## Results 
-
-### Original Baseline 
 
 ### Original Baseline Results
 
