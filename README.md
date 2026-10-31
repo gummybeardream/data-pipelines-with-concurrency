@@ -56,16 +56,34 @@ go run . -mode=concurrent
 go run . -mode=sequential
 ```
 
+## Testing
 
-## Results
+The project includes unit tests for image-processing helpers and complete pipeline behavior. Synthetic images and temporary directories keep the tests independent of the assignment input files.
 
-### Image-Processing Helper Tests
+The tests cover:
 
+- Image resizing and grayscale conversion
+- Successful image reading and writing
+- Missing and invalid input files
+- Invalid output paths
+- Job input and output paths
+- Invalid processing modes
+- Missing inputs in both processing modes
+- Successful sequential and concurrent processing
+- Output image dimensions
+
+Run the complete test suite:
+
+```bash
+go test ./...
+```
 ### Image-Processing Helper Tests
 
 Six unit tests verify image resizing, grayscale conversion, successful image reading and writing, missing input files, invalid image data, and invalid output paths. The tests use synthetic images and temporary directories so they do not depend on the assignment input files.
 
 The helper package achieved **91.3% statement coverage**. Running the complete test suite with Go's race detector reported no data races.
+
+## Results
 
 ### Original Baseline Results
 
