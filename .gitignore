@@ -25,4 +25,5 @@ go.work
 /images/output/*
 !/images/output/.gitkeep
 
-
+# DS_Store
+.DS_Store
