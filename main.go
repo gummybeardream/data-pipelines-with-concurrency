@@ -78,7 +78,7 @@ func saveImage(input <-chan Job) <-chan Result {
 	go func() {
 		for job := range input { // Read from the channel
 			if job.Err == nil {
-				imageprocessing.WriteImage(job.OutPath, job.Image)
+				job.Err = imageprocessing.WriteImage(job.OutPath, job.Image)
 			}
 
 			out <- Result{

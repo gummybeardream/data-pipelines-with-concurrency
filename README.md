@@ -1,4 +1,4 @@
-# Data Pipelines with Concurrency 
+# Data Pipelines with Concurrency
 
 [Episode link](https://www.codeheim.io/courses/Episode-21-Concurrency-in-Go-Pipeline-Pattern-65c3ca14e4b0628a4e002201)
 
@@ -16,19 +16,25 @@ Three source images were converted from WebP to JPEG using macOS Preview at appr
 | `norwegianelkhound.jpeg` | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Norwegian_Elkhound.jpg) | Sannse | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | JPEG | 600 × 629 |
 
 
-## Input Error Handling 
+## Input Error Handling
 
-The image-loading helper functions returns errors that indicate what has been affected instead of stopping with 'panic'. Errors can occur when an input file cannot be opened, decoded, or closed. Each error displays the affected file path and is carried through the pipeline without attempting later image transformations. 
+The image-loading helper function returns errors that indicate what has been affected instead of stopping with `panic`. Errors can occur when an input file cannot be opened, decoded, or closed. Each error displays the affected file path and is carried through the pipeline without attempting later image transformations.
 
-The program continues processing other valid images and reports every result. If any input fails, the program exits with status 1 after all jobs have been handled. Manual checks confirmed that missing files and files containing invalid images produce descriptive errors without causing a panic. 
+The program continues processing other valid images and reports every result. If any input fails, the program exits with status 1 after all jobs have been handled. Manual checks confirmed that missing files and files containing invalid images produce descriptive errors without causing a panic.
 
-## Results 
+## Output Error Handling
+
+The image-writing helper function creates the output directory and returns the errors instead of stopping the program with `panic`. Errors can occur while creating the directory, creating the output file, encoding the JPEG image, or closing the file. Each error includes the affected output path.
+
+Output errors are structured similarly to the input error reports. The program reports every result and exist with status 1 if any output fails. A manual check using an invalid output directory confirmed that failures produce descriptive errors without causing a panic.
+
+## Results
 
 ### Original Baseline Results
 
-The original pipeline was compiled before runtime was measurement so that compliation time was excluded. Using the `time` command, the program was run 6 times with the first time being a warm-up and the next five runs were measured. The average of the `total` runtime was .1492 seconds or 149.2 millisecones. 
+The original pipeline was compiled before runtime was measurement so that compliation time was excluded. Using the `time` command, the program was run 6 times with the first time being a warm-up and the next five runs were measured. The average of the `total` runtime was .1492 seconds or 149.2 millisecones.
 
-This result represents the original concurrent implementation and used only as a baseline. The final comparison will measure sequential and concurrent processing with the same four replacement images. 
+This result represents the original concurrent implementation and used only as a baseline. The final comparison will measure sequential and concurrent processing with the same four replacement images.
 
 | Run | User time | System time | CPU usage | Elapsed (`total`) time |
 |---:|---:|---:|---:|---:|
@@ -39,7 +45,7 @@ This result represents the original concurrent implementation and used only as a
 | 5 | 0.44 s | 0.01 s | 321% | 0.142 s |
 | **Mean** | **0.440 s** | **0.016 s** | **305.4%** | **0.1492 s** |
 
-## Future Comparison 
+## Future Comparison
 | Version | Mode | Measured runs | Mean elapsed time |
 |---|---|---:|---:|
 | Original | Concurrent | 5 | 0.1492 s (149.2 ms) |

@@ -6,6 +6,7 @@ import (
 	"image/color"
 	"image/jpeg"
 	"os"
+	"path/filepath"
 
 	"github.com/nfnt/resize"
 )
@@ -30,18 +31,30 @@ func ReadImage(path string) (image.Image, error) {
 	return img, nil
 }
 
-func WriteImage(path string, img image.Image) {
+func WriteImage(path string, img image.Image) error {
+	outputDir := filepath.Dir(path)
+
+	if err := os.MkdirAll(outputDir, 0755); err != nil {
+		return fmt.Errorf("create output directory %q: %w", outputDir, err)
+	}
+
 	outputFile, err := os.Create(path)
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("create output image %q: %w", path, err)
 	}
-	defer outputFile.Close()
 
 	// Encode the image to the new file
-	err = jpeg.Encode(outputFile, img, nil)
-	if err != nil {
-		panic(err)
+	encodeErr := jpeg.Encode(outputFile, img, nil)
+	closeErr := outputFile.Close()
+
+	if encodeErr != nil {
+		return fmt.Errorf("encode output image %q: %w", path, encodeErr)
 	}
+
+	if closeErr != nil {
+		return fmt.Errorf("close output image %q: %w", path, closeErr)
+	}
+	return nil
 }
 
 func Grayscale(img image.Image) image.Image {
