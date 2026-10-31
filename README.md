@@ -77,7 +77,22 @@ Run the complete test suite:
 ```bash
 go test ./...
 ```
-### Image-Processing Helper Tests
+Run the tests with Go's race detector:
+
+```bash
+go test -race ./...
+```
+
+Generate statement coverage:
+
+```bash
+go test -cover ./...
+```
+
+The final test run achieved **75.0% statement coverage** for the main pipeline package and **91.3% statement coverage** for the image-processing package. The race detector reported no data races.
+
+
+## Image-Processing Helper Tests
 
 Six unit tests verify image resizing, grayscale conversion, successful image reading and writing, missing input files, invalid image data, and invalid output paths. The tests use synthetic images and temporary directories so they do not depend on the assignment input files.
 

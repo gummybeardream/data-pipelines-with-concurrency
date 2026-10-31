@@ -4,9 +4,8 @@ import (
 	"image"
 	"image/color"
 	"os"
-	"testing"
-
 	"path/filepath"
+	"testing"
 )
 
 func TestResize(t *testing.T) {

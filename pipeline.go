@@ -55,7 +55,7 @@ func resize(input <-chan Job) <-chan Job {
 	out := make(chan Job)
 	go func() {
 		// Resize successful jobs and pass every job to the next pipeline stage
-		for job := range input { 
+		for job := range input {
 			if job.Err == nil {
 				job.Image = imageprocessing.Resize(job.Image)
 			}
