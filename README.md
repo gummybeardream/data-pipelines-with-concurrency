@@ -26,15 +26,15 @@ The program continues processing other valid images and reports every result. If
 
 The image-writing helper function creates the output directory and returns the errors instead of stopping the program with `panic`. Errors can occur while creating the directory, creating the output file, encoding the JPEG image, or closing the file. Each error includes the affected output path.
 
-Output errors are structured similarly to the input error reports. The program reports every result and exist with status 1 if any output fails. A manual check using an invalid output directory confirmed that failures produce descriptive errors without causing a panic.
+Output errors are structured similarly to the input error reports. The program reports every result and exits with status 1 if any output fails. A manual check using an invalid output directory confirmed that failures produce descriptive errors without causing a panic.
 
 ## Results
 
 ### Original Baseline Results
 
-The original pipeline was compiled before runtime was measurement so that compliation time was excluded. Using the `time` command, the program was run 6 times with the first time being a warm-up and the next five runs were measured. The average of the `total` runtime was .1492 seconds or 149.2 millisecones.
+The original pipeline was compiled before runtime was measured so that compilation time was excluded. Using the `time` command, the program was run 6 times with the first time being a warm-up and the next five runs were measured. The average of the `total` runtime was .1492 seconds or 149.2 milliseconds.
 
-This result represents the original concurrent implementation and used only as a baseline. The final comparison will measure sequential and concurrent processing with the same four replacement images.
+This result represents the original concurrent implementation and is used only as a baseline. The final comparison will measure sequential and concurrent processing with the same four replacement images.
 
 | Run | User time | System time | CPU usage | Elapsed (`total`) time |
 |---:|---:|---:|---:|---:|
