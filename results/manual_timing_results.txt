@@ -1,0 +1,44 @@
+Final Manual Timing Experiment
+
+Environment
+macOS: 26.6.2
+Go: go1.27.1 darwin/arm64
+Model: MacBookPro17,1
+Processor: Apple M1
+Memory: 16 GiB
+
+Method
+The executable was built once before measurement.
+Each mode received one unrecorded warm-up run.
+Five paired sequential and concurrent runs were measured with the zsh time command.
+The elapsed total value was used for comparison.
+
+Sequential
+Sequential
+Run 1: 0.200 seconds total, 195% CPU
+Run 2: 0.202 seconds total, 193% CPU
+Run 3: 0.198 seconds total, 194% CPU
+Run 4: 0.195 seconds total, 202% CPU
+Run 5: 0.193 seconds total, 202% CPU
+Mean: 0.1976 seconds
+Median: 0.198 seconds
+Range: 0.193–0.202 seconds
+Mean throughput: 20.24 images/second
+Mean CPU utilization: 197.2%
+
+Concurrent
+Run 1: 0.156 seconds total, 246% CPU
+Run 2: 0.154 seconds total, 257% CPU
+Run 3: 0.153 seconds total, 252% CPU
+Run 4: 0.152 seconds total, 259% CPU
+Run 5: 0.151 seconds total, 260% CPU
+Mean: 0.1532 seconds
+Median: 0.153 seconds
+Range: 0.151–0.156 seconds
+Mean throughput: 26.11 images/second
+Mean CPU utilization: 254.8%
+
+Comparison
+Speedup: 1.29x
+Elapsed-time reduction: 22.47%
+Throughput increase: 5.87 images/second
