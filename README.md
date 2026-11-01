@@ -121,3 +121,26 @@ This result represents the original concurrent implementation and is used only a
 | Original | Concurrent | 5 | 0.1492 s (149.2 ms) |
 | Final | Sequential | TBD | TBD |
 | Final | Concurrent | TBD | TBD |
+
+
+## Benchmark Methodology
+The benchmarks processed the same four assignment images through the complete pipeline: reading, resizing, grayscale conversion and output writing. The sequential and concurrent benchmarks used identicail inputs and image-processing helpers. Repeated iterations overwrote the same generated output files.
+
+Benchmarks were run on MacOS with an Apple M1 processor using Go's ARM64 architecture. Each benchmark processed the same four input images through the pipeline. Five samples were collected for each mode, with each sample running for approximately three seconds.
+
+The benchmark command was:
+
+```bash
+go test -run='^$' -bench='BenchmarkProcess' -benchmem -benchtime=3s -count=5 .
+```
+
+Go reported elapsed nanoseconds, allocated bytes, and memory allocations per pipeline run. The raw output is saved in `results/benchmark_results.txt`.
+
+## Benchmark Results
+
+| Mode | Samples | Mean time/run | Median time/run | Mean throughput | Mean bytes/run | Mean allocations/run |
+|---|---:|---:|---:|---:|---:|---:|
+| Sequential | 5 | 183.975 ms | 183.965 ms | 21.74 images/sec | 61,797,420 B | 1,000,558 |
+| Concurrent | 5 | 149.500 ms | 149.300 ms | 26.76 images/sec | 61,797,714 B | 1,000,568 |
+
+The concurrent pipiline ran **1.23 times faster** than the sequential pipeline, reducing mean elapsed time by **18.7**. Its estimated throughput increased from 21.74 to 26.76 images per secon. Memory use and allocation counts were nearly identical between the two mode.

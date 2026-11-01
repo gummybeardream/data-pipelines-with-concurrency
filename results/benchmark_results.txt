@@ -1,0 +1,16 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/gummybeardream/data-pipelines-with-concurrency
+cpu: Apple M1
+BenchmarkProcessSequential-8   	      19	 179799191 ns/op	61798482 B/op	 1000561 allocs/op
+BenchmarkProcessSequential-8   	      19	 183964717 ns/op	61797835 B/op	 1000559 allocs/op
+BenchmarkProcessSequential-8   	      19	 189149028 ns/op	61797092 B/op	 1000558 allocs/op
+BenchmarkProcessSequential-8   	      19	 184316993 ns/op	61796853 B/op	 1000557 allocs/op
+BenchmarkProcessSequential-8   	      19	 182646735 ns/op	61796839 B/op	 1000557 allocs/op
+BenchmarkProcessConcurrent-8   	      22	 153368006 ns/op	61797603 B/op	 1000567 allocs/op
+BenchmarkProcessConcurrent-8   	      21	 148358768 ns/op	61798310 B/op	 1000569 allocs/op
+BenchmarkProcessConcurrent-8   	      24	 149299635 ns/op	61797520 B/op	 1000567 allocs/op
+BenchmarkProcessConcurrent-8   	      22	 149602527 ns/op	61797577 B/op	 1000568 allocs/op
+BenchmarkProcessConcurrent-8   	      24	 146870651 ns/op	61797560 B/op	 1000567 allocs/op
+PASS
+ok  	github.com/gummybeardream/data-pipelines-with-concurrency	39.420s
